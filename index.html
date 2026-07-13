@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Relative paths so the site works on a GitHub project page subpath -->
+  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+  <link rel="shortcut icon" href="favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Track-I485" />
+  <link rel="manifest" href="favicon/site.webmanifest" />
+
+  <title>Open Source USCIS Case Status Tracker</title>
+  <meta name="description"
+    content="Free and open source USCIS I-485 case status tracker. It helps you analyze your USCIS ELIS API JSON data to get a full event timeline. No trackers and no logging." />
+  <meta name="keywords"
+    content="USCIS case tracker, I-485 status, green card tracker, USCIS ELIS API, USCIS case status, immigration case tracker, I-485 event timeline, IOE case tracker, adjustment of status tracker, green card status, USCIS JSON analyzer, H008 approval, LDA green card, USCIS case analyzer" />
+  <meta name="author" content="Mayur-esh and Claude AI" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0d1420" />
+  <meta name="application-name" content="Open Source USCIS Case Status Tracker" />
+  <meta name="generator" content="Mayur-esh and Claude AI" />
+  <link rel="canonical" href="https://mayur-esh.github.io/uscis-status-checker/" />
+
+  <!-- ══ OPEN GRAPH (Facebook, LinkedIn, WhatsApp) ════════════════ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="USCIS Case Status Tracker" />
+  <meta property="og:title" content="USCIS Case Status Tracker | Free I-485 Case Analyzer Tool" />
+  <meta property="og:description"
+    content="Analyze your USCIS I-485 case status with a full NIEM v5.0 event timeline, smart approval detection, interview waiver logic, and a personalized case narrative. Free, private, and 100% browser-based." />
+  <meta property="og:url" content="https://mayur-esh.github.io/uscis-status-checker/" />
+  <meta property="og:image" content="https://mayur-esh.github.io/uscis-status-checker/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="USCIS Case Status Tracker" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- ══ TWITTER / X CARD ════════════════════════════════════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="USCIS Case Status Tracker | Free I-485 Case Analyzer" />
+  <meta name="twitter:description"
+    content="Track your USCIS I-485 case with a full event timeline, NIEM v5.0 codes, smart approval detection, and a dynamic case narrative. Free &amp; 100% private." />
+  <meta name="twitter:image" content="https://mayur-esh.github.io/uscis-status-checker/og-image.png" />
+  <meta name="twitter:image:alt" content="USCIS Case Status Tracker Tool" />
+  <meta name="twitter:creator" content="@synavixlabs" />
+  <meta name="twitter:site" content="@synavixlabs" />
+
+  <!-- ══ JSON-LD STRUCTURED DATA (Google Rich Results) ═══════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "USCIS Case Status Tracker",
+    "url": "https://mayur-esh.github.io/uscis-status-checker/",
+    "description": "A free, open source, browser-based tool to analyze USCIS I-485 case status using ELIS API JSON data. Provides a full NIEM v5.0 event timeline, smart approval and interview waiver detection, and a personalized case narrative.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Mayur-esh",
+      "url": "https://pentestit.com"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Essential App Builder"
+    },
+    "keywords": "USCIS, I-485, green card, case tracker, immigration, ELIS API, NIEM v5.0",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "privacyPolicy": "All data processing is local. No data is stored or transmitted.",
+    "featureList": [
+      "USCIS ELIS API JSON parser",
+      "NIEM v5.0 event code dictionary (70+ codes)",
+      "Full case event timeline",
+      "Smart approval and denial detection",
+      "Interview waived / direct approval logic",
+      "Dynamic case narrative",
+      "Quick Fetch receipt number lookup",
+      "Case Status API shortcut (processing service center)",
+      "USCIS service center code reference",
+      "Auto dark/light theme"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="hdr-inner">
+      <div class="brand">
+        <div class="brand-seal" aria-hidden="true">🗽</div>
+        <span class="brand-name">USCIS Case Tracker</span>
+        <span class="brand-tag">I-485 · Unofficial</span>
+      </div>
+      <div class="theme-controls">
+        <button class="auto-badge" id="autoBadge" onclick="toggleAutoTheme()"
+          title="Toggle auto day/night mode">⚡ AUTO</button>
+        <button class="theme-toggle-btn" onclick="toggleThemeManual()" title="Toggle dark / light mode"
+          aria-label="Toggle dark or light mode">
+          <div class="toggle-thumb" id="toggleThumb">🌙</div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ════════════════════════════════════════════════════ -->
+  <main class="wrap">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="eyebrow">Free · Open source · Runs entirely in your browser</div>
+      <h1 class="hero-title">Your USCIS case, decoded.</h1>
+      <p class="hero-sub">Paste the JSON from your USCIS online account and get a plain-English timeline of every
+        event on your case — event codes explained, milestones detected, nothing leaves this page.</p>
+    </section>
+
+    <!-- Input section -->
+    <section class="panel">
+      <div class="panel-head">
+        <span class="sec-label">📂 Load Case Data</span>
+        <div class="input-actions">
+          <button class="btn btn-ghost" onclick="clearAll()">✕ Clear</button>
+          <button class="btn btn-primary" onclick="parseJSON()">▶ Analyze Case</button>
+        </div>
+      </div>
+      <label class="file-drop" for="fileInput">
+        <input type="file" id="fileInput" accept=".json,.txt" onchange="handleFile(event)" />
+        <span class="fdrop-icon" aria-hidden="true">📁</span>
+        <div class="fdrop-text">
+          <strong>Click to upload JSON file</strong>
+          <span>Or paste your USCIS API JSON in the text area below and click Analyze</span>
+        </div>
+      </label>
+      <textarea id="jsonInput" placeholder='Paste your USCIS API JSON here...
+
+{
+  "data": {
+    "receiptNumber": "IOE...",
+    "formType": "I-485",
+    "events": [...],
+    ...
+  }
+}'></textarea>
+      <div class="error-bar" id="errorBar"></div>
+    </section>
+
+    <!-- Quick Fetch Panel -->
+    <section class="panel">
+      <div class="panel-head">
+        <span class="sec-label">⚡ Quick Fetch — Enter Receipt Number</span>
+      </div>
+      <div class="qf-row">
+        <input type="text" id="qfReceiptInput" class="qf-input" placeholder="IOE0912345678" maxlength="14"
+          oninput="onQFInput()" onkeydown="if(event.key==='Enter') openUSCISAPI()" autocomplete="off"
+          spellcheck="false" aria-label="Receipt number" />
+        <button class="btn btn-primary" id="qfOpenBtn" onclick="openUSCISAPI()" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          Open USCIS API
+        </button>
+      </div>
+      <label class="qf-check">
+        <input type="checkbox" id="qfCaseStatusChk" onchange="onQFInput()" />
+        <span>Also open the <strong>Case Status API</strong> in a second tab — its response includes the
+          <strong>processing service center</strong> for your case
+          (<code>…/case-service/api/case_status/&lt;receipt&gt;</code>).</span>
+      </label>
+      <div class="qf-url-display" id="qfUrlDisplay"></div>
+      <div class="qf-hint">
+        <div class="api-step"><span class="step-num">1</span><span>Enter your <strong>receipt number</strong> above
+            (starts with <code>IOE</code> followed by digits).</span></div>
+        <div class="api-step"><span class="step-num">2</span><span>Make sure you are <strong>already signed in</strong>
+            to <a href="https://myaccount.uscis.gov/sign-in" target="_blank"
+              rel="noopener noreferrer">myaccount.uscis.gov</a> in <strong>another tab</strong> of this same browser
+            session.</span></div>
+        <div class="api-step"><span class="step-num">3</span><span>Click <strong>Open USCIS API</strong> — the raw JSON
+            loads in a new tab. If the Case Status checkbox is ticked, a second tab opens with the case-status JSON
+            (allow pop-ups for this site if your browser blocks it).</span></div>
+        <div class="api-step"><span class="step-num">4</span><span>Press <strong>Ctrl+A</strong> then
+            <strong>Ctrl+C</strong> in the new tab.</span></div>
+        <div class="api-step"><span class="step-num">5</span><span>Paste (<strong>Ctrl+V</strong>) into the text area
+            above and click <strong>Analyze Case</strong>.</span></div>
+        <p class="fine-print">Note: due to browser security — Cross-Origin Resource Sharing (CORS) — direct auto-loading
+          from an external domain is not possible. This step-by-step method is the fastest available path.</p>
+      </div>
+    </section>
+
+    <!-- API Access Guide -->
+    <details class="ref">
+      <summary>📖 How to manually access your USCIS case JSON data</summary>
+      <div class="ref-body">
+        <p>To retrieve your case data in JSON format from the USCIS ELIS API:</p>
+        <div class="api-step"><span class="step-num">1</span><span>Sign in to your USCIS account at
+            <a href="https://myaccount.uscis.gov/sign-in" target="_blank"
+              rel="noopener noreferrer">https://myaccount.uscis.gov/sign-in</a></span></div>
+        <div class="api-step"><span class="step-num">2</span><span>Open a <strong>new browser tab</strong> and navigate
+            to (replace the receipt number with your own):</span></div>
+        <p style="margin:6px 0 6px 29px"><code>https://my.uscis.gov/account/case-service/api/cases/<strong>IOE09XXXXXXXX</strong></code></p>
+        <div class="api-step"><span class="step-num">3</span><span>The browser displays the raw JSON response.
+            <strong>Select all</strong> (Ctrl+A), <strong>copy</strong> (Ctrl+C), and <strong>paste</strong> (Ctrl+V)
+            it into the text area above, then click <strong>Analyze Case</strong>.</span></div>
+        <p class="fine-print">You must be signed in to your USCIS account in the same browser session for the API link
+          to work. The JSON is fetched directly from USCIS servers to your browser — this tool does not store or
+          transmit any data.</p>
+      </div>
+    </details>
+
+    <!-- Service Center Codes Reference -->
+    <details class="ref">
+      <summary>🏛 USCIS service center codes — what your receipt prefix means</summary>
+      <div class="ref-body">
+        <p>The three-letter prefix of a USCIS receipt number identifies where the case is processed. Some prefixes are
+          older names for the same service center and still appear on existing case numbers.</p>
+        <table class="sc-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Service center</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="sc-group"><td colspan="3">Current codes</td></tr>
+            <tr><td class="sc-code">VSC</td><td>Vermont Service Center</td><td>Current code USCIS uses for the Vermont Service Center.</td></tr>
+            <tr><td class="sc-code">CSC</td><td>California Service Center</td><td>Current code for the California Service Center.</td></tr>
+            <tr><td class="sc-code">NSC</td><td>Nebraska Service Center</td><td>Current code for the Nebraska Service Center.</td></tr>
+            <tr><td class="sc-code">TSC</td><td>Texas Service Center</td><td>Current code for the Texas Service Center.</td></tr>
+            <tr><td class="sc-code">PSC</td><td>Potomac Service Center</td><td>Current code for the Potomac Service Center.</td></tr>
+            <tr><td class="sc-code">NBC</td><td>National Benefits Center</td><td>Technically not a Service Center, but this code appears in receipt numbers for cases processed at the NBC.</td></tr>
+            <tr><td class="sc-code">IOE</td><td>Integrated Operating Environment</td><td>Not a physical service center. Used for electronic filings via the USCIS ELIS e-filing system, or when a paper application was scanned in at a service center — part of USCIS's move away from paper-based processing.</td></tr>
+            <tr class="sc-group"><td colspan="3">Previous codes — still found on older case numbers</td></tr>
+            <tr><td class="sc-code">ESC</td><td>Eastern Service Center</td><td>Previous name/code for the Vermont Service Center (VSC).</td></tr>
+            <tr><td class="sc-code">EAC</td><td>Eastern Adjudication Center</td><td>Previous code for the Vermont Service Center (VSC).</td></tr>
+            <tr><td class="sc-code">WSC</td><td>Western Service Center</td><td>Previous name/code for the California Service Center (CSC).</td></tr>
+            <tr><td class="sc-code">WAC</td><td>Western Adjudication Center</td><td>Previous code for the California Service Center (CSC).</td></tr>
+            <tr><td class="sc-code">LIN</td><td>Lincoln Service Center</td><td>Previous name/code for the Nebraska Service Center (NSC).</td></tr>
+            <tr><td class="sc-code">SSC</td><td>Southern Service Center</td><td>Previous name/code for the Texas Service Center (TSC).</td></tr>
+            <tr><td class="sc-code">SRC</td><td>Southern Regional Center</td><td>Previous code for the Texas Service Center (TSC).</td></tr>
+            <tr><td class="sc-code">YSC</td><td>Potomac Service Center (previous code)</td><td>Previous code for the Potomac Service Center (PSC); still found on case numbers processed there.</td></tr>
+            <tr><td class="sc-code">MSC</td><td>National Benefits Center (alternative code)</td><td>Alternative/older code — cases starting with MSC are processed at the National Benefits Center (NBC).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Output (hidden until data loaded) -->
+    <div id="output" style="display:none">
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-title">At a Glance</div>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="stat-bar" id="statBar"></div>
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-title">Case Details</div>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="grid-2" id="caseDetailsGrid"></div>
+
+      <div id="noticesSection" style="display:none">
+        <div class="section-divider">
+          <div class="section-divider-line"></div>
+          <div class="section-divider-title">Official Notices</div>
+          <div class="section-divider-line"></div>
+        </div>
+        <div class="card" style="margin-bottom:18px">
+          <div id="noticesList"></div>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-title">Event Timeline</div>
+        <div class="section-divider-line"></div>
+      </div>
+      <div id="timeline" style="margin-bottom:8px"></div>
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-title">Case Summary &amp; Analysis</div>
+        <div class="section-divider-line"></div>
+      </div>
+      <div id="summaryCard" class="summary-card"></div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon" aria-hidden="true">📋</div>
+      <div class="empty-title">Ready to analyze your USCIS case</div>
+      <div class="empty-desc">Upload a JSON file or paste your USCIS API response above, then click
+        <strong>Analyze Case</strong>. Timestamps are shown in your device's local timezone; the filing date is shown
+        in UTC.</div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="section-divider">
+      <div class="section-divider-line"></div>
+      <div class="section-divider-title">Disclaimer</div>
+      <div class="section-divider-line"></div>
+    </div>
+    <div class="disclaimer">
+      <div class="disclaimer-title">⚠ Unofficial Third-Party Tool — Not Affiliated with USCIS</div>
+      <div class="disclaimer-body">
+        <p>This open-source application is an independent, third-party informational tool developed solely for personal reference purposes. It is <strong>not affiliated with, endorsed by, sponsored by, or maintained by U.S. Citizenship and Immigration Services (USCIS), the Department of Homeland Security (DHS)</strong>, any other government agency, any licensed immigration attorney, law firm, or their representatives.</p>
+        <p>All information displayed by this tool is generated exclusively from JSON data <strong>provided by you</strong> and sourced from the USCIS ELIS API. The application does not independently retrieve, verify, validate, or interpret any data. Event code descriptions are based on publicly available NIEM schema documentation and are provided solely for general informational purposes.</p>
+        <p>No data is stored, transmitted, or retained. All processing occurs locally within <strong>your browser session</strong>. Your case information and personal data remain on your device at all times and are never sent to any server, database, or third party. The source code for this application is publicly available on GitHub.</p>
+        <p>The information presented by this tool does not constitute legal advice and <strong>should not be relied upon as a substitute for professional guidance</strong>. The developer and any associated parties expressly disclaim all liability for any errors, omissions, inaccuracies, misinterpretations, or outcomes resulting from the use of this application.
+          <strong>For advice relating to your specific immigration matter, always consult a licensed immigration attorney or accredited representative.</strong></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>Developed with <span class="brand-word">Claude</span> Partner: <a href="https://pentestit.com" target="_blank"
+          rel="noopener">PenTestIT.com</a></div>
+      <div>Event Codes Reference:
+        <a href="https://niem.github.io/model/5.0/scr/BenefitDocumentStatusCategoryCodeSimpleType/" target="_blank"
+          rel="noopener noreferrer">NIEM v5.0</a></div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

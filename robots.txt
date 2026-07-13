@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mayur-esh.github.io/uscis-status-checker/sitemap.xml
